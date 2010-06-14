@@ -1,0 +1,10 @@
+--- origsrc/jpilot-1.8.0/plugins.c	2009-12-31 14:57:13.000000000 -0600
++++ src/jpilot-1.8.0/plugins.c	2010-06-13 16:40:05.006037000 -0500
+@@ -94,6 +94,7 @@ int load_plugins_sub1(DIR *dir, char *pa
+       /* If the filename has either of these extensions then plug it in */
+       if ((strcmp(&(dirent->d_name[strlen(dirent->d_name)-3]), ".so")) &&
+ 	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-3]), ".sl")) &&
++	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-4]), ".dll")) &&
+ 	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-6]), ".dylib"))) {
+ 	 continue;
+       } else {
