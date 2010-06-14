@@ -1,0 +1,49 @@
+This is still not enough:
+
+Plugins depend on symbols in both jpilot and jpilot-sync, and common
+code cannot be made into a library because it depends on symbols from
+the executables' main()
+
+--- origsrc/jpilot-1.8.0/Expense/Makefile.am	2009-08-30 08:42:37.000000000 -0500
++++ src/jpilot-1.8.0/Expense/Makefile.am	2010-06-11 02:59:04.161802900 -0500
+@@ -7,7 +7,7 @@ if MAKE_EXPENSE
+ lib_LTLIBRARIES = libexpense.la
+ libexpense_la_SOURCES = expense.c
+ libexpense_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ -I$(top_srcdir)
+-libexpense_la_LDFLAGS = -module -avoid-version
++libexpense_la_LDFLAGS = -module -avoid-version -no-undefined
+ libexpense_la_LIBADD = @GTK_LIBS@
+ 
+ endif
+--- origsrc/jpilot-1.8.0/KeyRing/Makefile.am	2009-08-30 08:42:38.000000000 -0500
++++ src/jpilot-1.8.0/KeyRing/Makefile.am	2010-06-11 02:59:17.709577700 -0500
+@@ -9,7 +9,7 @@ if MAKE_KEYRING
+ lib_LTLIBRARIES = libkeyring.la
+ libkeyring_la_SOURCES = keyring.c
+ libkeyring_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ @LIBGCRYPT_CFLAGS@ -I$(top_srcdir)
+-libkeyring_la_LDFLAGS = -module -avoid-version
++libkeyring_la_LDFLAGS = -module -avoid-version -no-undefined
+ libkeyring_la_LIBADD = @OPENSSL_LIBS@ @GTK_LIBS@ @LIBGCRYPT_LIBS@
+ 
+ endif
+--- origsrc/jpilot-1.8.0/plugins.c	2009-12-31 14:57:13.000000000 -0600
++++ src/jpilot-1.8.0/plugins.c	2010-06-11 03:05:12.628878000 -0500
+@@ -94,6 +94,7 @@ int load_plugins_sub1(DIR *dir, char *pa
+       /* If the filename has either of these extensions then plug it in */
+       if ((strcmp(&(dirent->d_name[strlen(dirent->d_name)-3]), ".so")) &&
+ 	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-3]), ".sl")) &&
++	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-4]), ".dll")) &&
+ 	  (strcmp(&(dirent->d_name[strlen(dirent->d_name)-6]), ".dylib"))) {
+ 	 continue;
+       } else {
+--- origsrc/jpilot-1.8.0/SyncTime/Makefile.am	2009-08-30 08:42:38.000000000 -0500
++++ src/jpilot-1.8.0/SyncTime/Makefile.am	2010-06-11 03:00:36.535086300 -0500
+@@ -7,7 +7,7 @@ if MAKE_SYNCTIME
+ lib_LTLIBRARIES = libsynctime.la
+ libsynctime_la_SOURCES = synctime.c
+ libsynctime_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ -I$(top_srcdir)
+-libsynctime_la_LDFLAGS = -module -avoid-version
++libsynctime_la_LDFLAGS = -module -avoid-version -no-undefined
+ libsynctime_la_LIBADD = @GTK_LIBS@
+ 
+ endif

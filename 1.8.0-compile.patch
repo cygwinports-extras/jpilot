@@ -1,0 +1,10 @@
+--- origsrc/jpilot-1.8.0/jpilot.c	2009-08-30 08:42:37.000000000 -0500
++++ src/jpilot-1.8.0/jpilot.c	2010-06-11 03:25:11.182431300 -0500
+@@ -23,6 +23,7 @@
+ /********************************* Includes ***********************************/
+ #include "config.h"
+ #include <time.h>
++#include <sys/time.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <signal.h>
