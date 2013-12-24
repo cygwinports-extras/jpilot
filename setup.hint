@@ -1,6 +1,0 @@
-category: Utils
-requires: libgcc1 libgcrypt11 libgdk_pixbuf2.0_0 libglib2.0_0 libgpg-error0 libgtk2.0_0 libintl8 libpisock9
-sdesc: "Desktop organizer for PalmOS handhelds"
-ldesc: "J-Pilot is a desktop organizer application for PalmOS devices. 
-It is meant to be an alternative to the Palm Desktop for those who run 
-*NIX systems."
