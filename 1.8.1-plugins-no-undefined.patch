@@ -1,46 +1,46 @@
---- origsrc/jpilot-1.8.0/Expense/Makefile.am	2009-08-30 08:42:37.000000000 -0500
-+++ src/jpilot-1.8.0/Expense/Makefile.am	2010-06-13 18:33:23.613589100 -0500
+--- origsrc/jpilot-1.8.1/Expense/Makefile.am	2009-08-30 08:42:37.000000000 -0500
++++ src/jpilot-1.8.1/Expense/Makefile.am	2013-12-23 22:39:18.053823000 -0600
 @@ -7,7 +7,7 @@ if MAKE_EXPENSE
  lib_LTLIBRARIES = libexpense.la
  libexpense_la_SOURCES = expense.c
  libexpense_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ -I$(top_srcdir)
 -libexpense_la_LDFLAGS = -module -avoid-version
 -libexpense_la_LIBADD = @GTK_LIBS@
-+libexpense_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.exe.a
++libexpense_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.dll.a
 +libexpense_la_LIBADD = @GTK_LIBS@ @PILOT_LIBS@
  
  endif
---- origsrc/jpilot-1.8.0/KeyRing/Makefile.am	2009-08-30 08:42:38.000000000 -0500
-+++ src/jpilot-1.8.0/KeyRing/Makefile.am	2010-06-13 18:33:36.934351000 -0500
+--- origsrc/jpilot-1.8.1/KeyRing/Makefile.am	2009-08-30 08:42:38.000000000 -0500
++++ src/jpilot-1.8.1/KeyRing/Makefile.am	2013-12-23 22:40:01.941333200 -0600
 @@ -9,7 +9,7 @@ if MAKE_KEYRING
  lib_LTLIBRARIES = libkeyring.la
  libkeyring_la_SOURCES = keyring.c
  libkeyring_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ @LIBGCRYPT_CFLAGS@ -I$(top_srcdir)
 -libkeyring_la_LDFLAGS = -module -avoid-version
 -libkeyring_la_LIBADD = @OPENSSL_LIBS@ @GTK_LIBS@ @LIBGCRYPT_LIBS@
-+libkeyring_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.exe.a
++libkeyring_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.dll.a
 +libkeyring_la_LIBADD = @OPENSSL_LIBS@ @GTK_LIBS@ @LIBGCRYPT_LIBS@ @PILOT_LIBS@
  
  endif
---- origsrc/jpilot-1.8.0/Makefile.am	2010-02-28 22:04:26.000000000 -0600
-+++ src/jpilot-1.8.0/Makefile.am	2010-06-13 16:41:50.919094900 -0500
+--- origsrc/jpilot-1.8.1/Makefile.am	2011-04-05 14:49:34.000000000 -0500
++++ src/jpilot-1.8.1/Makefile.am	2013-12-23 22:40:33.191120600 -0600
 @@ -1,6 +1,6 @@
- # $Id: Makefile.am,v 1.64 2010-02-28 20:56:10 judd Exp $
+ # $Id: Makefile.am,v 1.71 2011-04-05 19:49:34 judd Exp $
  
--SUBDIRS = Expense SyncTime KeyRing dialer m4 po icons docs empty
-+SUBDIRS = . Expense SyncTime KeyRing dialer m4 po icons docs empty
+-SUBDIRS = m4 po Expense SyncTime KeyRing dialer icons docs empty
++SUBDIRS = . m4 po Expense SyncTime KeyRing dialer icons docs empty
  
  EXTRA_DIST = config.rpath mkinstalldirs reconf autogen.sh \
  	intltool-extract.in intltool-merge.in intltool-update.in gettext.h \
---- origsrc/jpilot-1.8.0/SyncTime/Makefile.am	2009-08-30 08:42:38.000000000 -0500
-+++ src/jpilot-1.8.0/SyncTime/Makefile.am	2010-06-13 18:35:14.761946400 -0500
+--- origsrc/jpilot-1.8.1/SyncTime/Makefile.am	2009-08-30 08:42:38.000000000 -0500
++++ src/jpilot-1.8.1/SyncTime/Makefile.am	2013-12-23 22:40:43.326700300 -0600
 @@ -7,7 +7,7 @@ if MAKE_SYNCTIME
  lib_LTLIBRARIES = libsynctime.la
  libsynctime_la_SOURCES = synctime.c
  libsynctime_la_CFLAGS = @PILOT_FLAGS@ @GTK_CFLAGS@ -I$(top_srcdir)
 -libsynctime_la_LDFLAGS = -module -avoid-version
 -libsynctime_la_LIBADD = @GTK_LIBS@
-+libsynctime_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.exe.a
++libsynctime_la_LDFLAGS = -module -avoid-version -no-undefined -Wl,../libjpilot.dll.a
 +libsynctime_la_LIBADD = @GTK_LIBS@ @PILOT_LIBS@
  
  endif

@@ -1,0 +1,206 @@
+--- origsrc/jpilot-1.8.1/Makefile.am	2013-12-23 22:41:39.433909500 -0600
++++ src/jpilot-1.8.1/Makefile.am	2013-12-23 22:43:59.783937000 -0600
+@@ -26,7 +26,7 @@ color_DATA = \
+ 
+ # Instructions for the code to build begins here
+ 
+-bin_PROGRAMS = jpilot jpilot-dump jpilot-sync jpilot-merge
++bin_PROGRAMS = jpilot
+ 
+ jpilot_SOURCES = \
+ 	address.c \
+@@ -56,6 +56,8 @@ jpilot_SOURCES = \
+ 	japanese.h \
+ 	jpilot.c \
+ 	jpilot.h \
++	jpilot-dump.c \
++	jpilot-sync.c \
+ 	jp-contact.c \
+ 	jp-pi-contact.h \
+ 	libplugin.c \
+@@ -65,6 +67,7 @@ jpilot_SOURCES = \
+ 	memo.c \
+ 	memo_gui.c \
+ 	memo.h \
++	merge.c \
+ 	monthview_gui.c \
+ 	otherconv.c \
+ 	otherconv.h \
+@@ -117,7 +120,6 @@ jpilot_dump_SOURCES = \
+ 	cp1250.c \
+ 	datebook.c \
+ 	japanese.c \
+-	jpilot-dump.c \
+ 	libplugin.c \
+ 	log.c \
+ 	memo.c \
+@@ -133,7 +135,6 @@ jpilot_dump_SOURCES = \
+ jpilot_sync_SOURCES = \
+ 	cp1250.c \
+ 	category.c \
+-	jpilot-sync.c \
+ 	japanese.c \
+ 	libplugin.c \
+ 	log.c \
+@@ -151,7 +152,6 @@ jpilot_merge_SOURCES = \
+ 	japanese.c \
+ 	libplugin.c \
+ 	log.c \
+-	merge.c \
+ 	otherconv.c \
+ 	plugins.c \
+ 	prefs.c \
+@@ -170,7 +170,7 @@ I18NDEFS = -DLOCALEDIR=\"$(localedir)\"
+ AM_CFLAGS= @PILOT_FLAGS@ @GTK_CFLAGS@ ${I18NDEFS}
+ 
+ # Add linkflags
+-jpilot_LDFLAGS = -export-dynamic
++jpilot_LDFLAGS = -export-dynamic -Wl,--out-implib,libjpilot.dll.a
+ jpilot_LDADD=@LIBS@ @PILOT_LIBS@ @GTK_LIBS@
+ jpilot_dump_LDADD=@LIBS@ @PILOT_LIBS@ @GTK_LIBS@
+ jpilot_sync_LDFLAGS = -export-dynamic
+--- origsrc/jpilot-1.8.1/jpilot-dump.c	2011-04-05 14:12:20.000000000 -0500
++++ src/jpilot-1.8.1/jpilot-dump.c	2013-12-23 22:47:42.503675900 -0600
+@@ -77,14 +77,12 @@ char *formatT;
+  * The variables below are global variables in jpilot.c which are unused in
+  * this code but must be instantiated for the code to compile.  
+  * The same is true of the functions which are only used in GUI mode. */
+-pid_t jpilot_master_pid = -1;
+-int pipe_to_parent;
+-GtkWidget *glob_dialog;
+-GtkWidget *glob_date_label;
+-gint glob_date_timer_tag;
++extern pid_t jpilot_master_pid;
++extern int pipe_to_parent;
++extern GtkWidget *glob_dialog;
++extern GtkWidget *glob_date_label;
++extern gint glob_date_timer_tag;
+ 
+-void output_to_pane(const char *str) { return; }
+-int sync_once(struct my_sync_info *sync_info) { return EXIT_SUCCESS; }
+ /* End Hack */
+ 
+ /****************************** Main Code *************************************/
+@@ -1100,7 +1098,7 @@ static int dumpmemo(void)
+    return EXIT_SUCCESS;
+ }
+ 
+-int main(int argc, char *argv[])
++int dump_main(int argc, char *argv[])
+ {
+    int i;
+    time_t ltime;
+@@ -1130,6 +1128,7 @@ int main(int argc, char *argv[])
+    textdomain(EPN);
+ #endif
+ 
++   jpilot_master_pid = -1;	/* used only in GUI mode */
+    /* If called with no arguments then print usage information */
+    if (argc == 1)
+    {
+--- origsrc/jpilot-1.8.1/jpilot-sync.c	2011-04-05 14:19:25.000000000 -0500
++++ src/jpilot-1.8.1/jpilot-sync.c	2013-12-23 22:46:26.045302700 -0600
+@@ -39,24 +39,21 @@
+ #include "otherconv.h"
+ 
+ /******************************* Global vars **********************************/
+-int pipe_to_parent, pipe_from_parent;
+-pid_t glob_child_pid;
+-unsigned char skip_plugins;
++extern int pipe_to_parent, pipe_from_parent;
++extern pid_t glob_child_pid;
++extern unsigned char skip_plugins;
+ 
+ /* Start Hack */
+ /* FIXME: The following is a hack.  
+  * The variables below are global variables in jpilot.c which are unused in
+  * this code but must be instantiated for the code to compile.  
+  * The same is true of the functions which are only used in GUI mode. */
+-pid_t jpilot_master_pid = -1;
+-int *glob_date_label;
+-GtkWidget *glob_dialog;
+-GtkTooltips *glob_tooltips;
+-gint glob_date_timer_tag;
+-
+-void output_to_pane(const char *str) { return; }
+-void cb_app_button(GtkWidget *widget, gpointer data) { return; }
+-void cb_cancel_sync(GtkWidget *widget, unsigned int flags) { return; }
++extern pid_t jpilot_master_pid;
++extern int *glob_date_label;
++extern GtkWidget *glob_dialog;
++extern GtkTooltips *glob_tooltips;
++extern gint glob_date_timer_tag;
++
+ /* End Hack */
+ 
+ /****************************** Main Code *************************************/
+@@ -99,7 +96,7 @@ static void sig_handler(int sig)
+    exit(0);
+ }
+ 
+-int main(int argc, char *argv[])
++int sync_main(int argc, char *argv[])
+ {
+    int flags;
+    int r, i;
+@@ -121,6 +118,7 @@ int main(int argc, char *argv[])
+    textdomain(EPN);
+ #endif
+ 
++   jpilot_master_pid = -1;	/* used only in GUI mode */
+    port[0]='\0';
+    glob_child_pid=0;
+    loop=0;
+--- origsrc/jpilot-1.8.1/jpilot.c	2013-12-23 22:41:38.746870200 -0600
++++ src/jpilot-1.8.1/jpilot.c	2013-12-23 22:50:57.601834800 -0600
+@@ -1542,6 +1542,13 @@ int main(int argc, char *argv[])
+ #  endif
+ #endif
+ 
++   if (!strcmp("jpilot-dump", basename(argv[0])))
++     return dump_main(argc, argv);
++   if (!strcmp("jpilot-merge", basename(argv[0])))
++     return merge_main(argc, argv);
++   if (!strcmp("jpilot-sync", basename(argv[0])))
++     return sync_main(argc, argv);
++
+    skip_plugins=FALSE;
+    skip_past_alarms=FALSE;
+    skip_all_alarms=FALSE;
+--- origsrc/jpilot-1.8.1/merge.c	2011-04-05 14:35:51.000000000 -0500
++++ src/jpilot-1.8.1/merge.c	2013-12-23 22:49:25.458564500 -0600
+@@ -26,14 +26,9 @@
+ gint glob_date_timer_tag;
+ 
+ 
+-void output_to_pane(const char *str);
+-void output_to_pane(const char *str) {}
+-int sync_once(struct my_sync_info *sync_info) { return EXIT_SUCCESS; }
+-GtkWidget *glob_dialog;
+-int *glob_date_label;
+-pid_t jpilot_master_pid = -1;
+-int edit_cats(GtkWidget *widget, char *db_name, struct CategoryAppInfo *cai) {}
+-int jp_pack_Contact(struct Contact *c, pi_buffer_t *buf) {}
++extern GtkWidget *glob_dialog;
++extern int *glob_date_label;
++extern pid_t jpilot_master_pid;
+ 
+ int read_pc_recs(char *file_name, GList **records)
+ {
+@@ -236,7 +231,7 @@ int merge_pdb_file(char *src_pdb_file, c
+ 
+ 
+ 
+-int main(int argc, char *argv[])
++int merge_main(int argc, char *argv[])
+ {
+    if (argc < 3) {
+       fprintf(stderr, "Usage: %s {input pdb file} {input pc file} {output pdb file}\n", argv[0]);
+@@ -254,6 +249,7 @@ int main(int argc, char *argv[])
+    in_pc = argv[2];
+    out_pdb = argv[3];
+    
++   jpilot_master_pid = -1;	/* used only in GUI mode */
+    merge_pdb_file(in_pdb, in_pc, out_pdb);
+    
+    return 0;

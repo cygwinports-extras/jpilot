@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="jpilot"
-VERSION=1.8.0
+VERSION=1.8.1
 RELEASE=1
 CATEGORY="Utils"
 SUMMARY="Desktop organizer for PalmOS handhelds"
@@ -12,23 +12,22 @@ HOMEPAGE="http://jpilot.org/"
 SRC_URI="http://jpilot.org/${NAME}-${VERSION}.tar.gz"
 PATCH_URI="
 	1.8.0-compile.patch
-	1.8.0-plugins-load-dll.patch
-	1.8.0-plugins-no-undefined.patch
-	1.8.0-plugins-single-exe.patch
+	1.8.1-cygwin-build.patch
+	1.8.1-plugins-load-dll.patch
+	1.8.1-plugins-no-undefined.patch
+	1.8.1-plugins-single-exe.patch
 "
-
-# setup.exe can't handle contents with UTF-8 filenames
-jpilot_CONTENTS="--exclude=Ma*anaDB.pdb usr/"
-PKG_IGNORE="usr/share/jpilot/Ma*anaDB.pdb"
 
 src_install() {
 	cd ${B}
 	cyginstall
 
 	# compensate for single-exe hack
+	dosym jpilot.exe /usr/bin/jpilot-dump
+	dosym jpilot.exe /usr/bin/jpilot-merge
 	dosym jpilot.exe /usr/bin/jpilot-sync
 	# for third-party jpilot plugins (e.g. jpilot-backup)
-	dolib libjpilot.exe.a
+	dolib libjpilot.dll.a
 
 	# linux only, should be conditional on JPILOT_DIALER
 	rm -f ${D}/usr/share/man/man1/jpilot-dial.*

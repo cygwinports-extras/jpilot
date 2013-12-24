@@ -1,0 +1,24 @@
+--- origsrc/jpilot-1.8.1/configure.in	2011-04-05 15:24:39.000000000 -0500
++++ src/jpilot-1.8.1/configure.in	2013-12-23 22:54:00.581300700 -0600
+@@ -249,6 +249,11 @@ for pilot_libs in $pilot_prefix/lib /usr
+       PILOT_LIBS="-L$pilot_libs $PILOT_LIBS"
+       break
+    fi
++   if test -r "$pilot_libs/libpisock.dll.a" ; then
++      pilotlibs=yes
++      PILOT_LIBS="-L$pilot_libs $PILOT_LIBS"
++      break
++   fi
+ done
+ fi
+ 
+--- origsrc/jpilot-1.8.1/empty/Makefile.am	2009-08-30 08:42:38.000000000 -0500
++++ src/jpilot-1.8.1/empty/Makefile.am	2013-12-23 22:59:17.606433500 -0600
+@@ -9,7 +9,6 @@ pdb_DATA = DatebookDB.pdb \
+            ContactsDB-PAdd.pdb \
+            ToDoDB.pdb \
+            TasksDB-PTod.pdb \
+-           MañanaDB.pdb \
+            MemoDB.pdb \
+            MemosDB-PMem.pdb \
+            Memo32DB.pdb \
