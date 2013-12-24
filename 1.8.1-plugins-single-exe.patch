@@ -151,17 +151,27 @@
     port[0]='\0';
     glob_child_pid=0;
     loop=0;
---- origsrc/jpilot-1.8.1/jpilot.c	2013-12-23 22:41:38.746870200 -0600
-+++ src/jpilot-1.8.1/jpilot.c	2013-12-23 22:50:57.601834800 -0600
-@@ -1542,6 +1542,13 @@ int main(int argc, char *argv[])
+--- origsrc/jpilot-1.8.1/jpilot.c	2013-12-23 23:21:49.534759300 -0600
++++ src/jpilot-1.8.1/jpilot.c	2013-12-23 23:36:25.544864300 -0600
+@@ -123,6 +123,9 @@ extern GtkWidget *monthview_window;
+ static void cb_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
+ static void install_gui_and_size(GtkWidget *main_window);
+ 
++extern int dump_main(int, char*[]);
++extern int merge_main(int, char*[]);
++extern int sync_main(int, char*[]);
+ /****************************** Main Code *************************************/
+ 
+ static int create_main_boxes(void)
+@@ -1542,6 +1545,13 @@ int main(int argc, char *argv[])
  #  endif
  #endif
  
-+   if (!strcmp("jpilot-dump", basename(argv[0])))
++   if (strstr(argv[0], "jpilot-dump"))
 +     return dump_main(argc, argv);
-+   if (!strcmp("jpilot-merge", basename(argv[0])))
++   if (strstr(argv[0], "jpilot-merge"))
 +     return merge_main(argc, argv);
-+   if (!strcmp("jpilot-sync", basename(argv[0])))
++   if (strstr(argv[0], "jpilot-sync"))
 +     return sync_main(argc, argv);
 +
     skip_plugins=FALSE;
