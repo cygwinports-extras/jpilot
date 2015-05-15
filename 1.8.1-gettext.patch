@@ -1,0 +1,24 @@
+--- origsrc/jpilot-1.8.1/configure.in	2015-03-19 07:00:46.809026600 -0500
++++ src/jpilot-1.8.1/configure.in	2015-03-19 07:05:44.208791600 -0500
+@@ -52,11 +52,6 @@ dnl            which leave this macro un
+ DATADIRNAME=share
+ AC_SUBST(DATADIRNAME)
+ 
+-dnl Setup gettext using version available on host
+-dnl The intl/ directory is not exported with the distribution
+-AM_GNU_GETTEXT([external])
+-AM_GNU_GETTEXT_VERSION([0.16.1])
+-
+ if test "x$MSGFMT" = "xno"; then
+    if test "x$GMSGFMT" = "xno"; then
+       AC_MSG_RESULT(No gettext found)
+--- origsrc/jpilot-1.8.1/po/ru.po	2010-07-03 22:16:16.000000000 -0500
++++ src/jpilot-1.8.1/po/ru.po	2015-03-19 07:01:00.800303300 -0500
+@@ -12,6 +12,7 @@ msgstr ""
+ "PO-Revision-Date: 2010-04-28 18:14+0300\n"
+ "Last-Translator: Sergey Klimov <dcdarv@gmail.com>\n"
+ "Language-Team: Russian <gnu@mx.ru>\n"
++"Language: ru\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"

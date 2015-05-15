@@ -2,7 +2,7 @@ inherit gnome2
 
 NAME="jpilot"
 VERSION=1.8.1
-RELEASE=1
+RELEASE=2
 CATEGORY="Utils"
 SUMMARY="Desktop organizer for PalmOS handhelds"
 DESCRIPTION="J-Pilot is a desktop organizer application for PalmOS devices.
@@ -16,6 +16,7 @@ PATCH_URI="
 	1.8.1-plugins-load-dll.patch
 	1.8.1-plugins-no-undefined.patch
 	1.8.1-plugins-single-exe.patch
+	1.8.1-gettext.patch
 "
 
 src_install() {
