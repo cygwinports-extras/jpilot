@@ -12,13 +12,3 @@
  done
  fi
  
---- origsrc/jpilot-1.8.1/empty/Makefile.am	2009-08-30 08:42:38.000000000 -0500
-+++ src/jpilot-1.8.1/empty/Makefile.am	2013-12-23 22:59:17.606433500 -0600
-@@ -9,7 +9,6 @@ pdb_DATA = DatebookDB.pdb \
-            ContactsDB-PAdd.pdb \
-            ToDoDB.pdb \
-            TasksDB-PTod.pdb \
--           MañanaDB.pdb \
-            MemoDB.pdb \
-            MemosDB-PMem.pdb \
-            Memo32DB.pdb \

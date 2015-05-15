@@ -24,9 +24,7 @@
  endif
 --- origsrc/jpilot-1.8.1/Makefile.am	2011-04-05 14:49:34.000000000 -0500
 +++ src/jpilot-1.8.1/Makefile.am	2013-12-23 22:40:33.191120600 -0600
-@@ -1,6 +1,6 @@
- # $Id: Makefile.am,v 1.71 2011-04-05 19:49:34 judd Exp $
- 
+@@ -1,4 +1,4 @@
 -SUBDIRS = m4 po Expense SyncTime KeyRing dialer icons docs empty
 +SUBDIRS = . m4 po Expense SyncTime KeyRing dialer icons docs empty
  
